@@ -42,12 +42,13 @@ db.once('open',()=>{
     const msgCollection = db.collection("messagecontents");
     const changeStream = msgCollection.watch();
     changeStream.on('change', change=>{
-        if(change.operationType ==='insert'){
+        if(change.operationType === 'insert'){
             const messageDetails = change.fullDocument;
             pusher.trigger("messages", "inserted", {
                 name:messageDetails.name,
                 message: messageDetails.message,
-                timestamp:messageDetails.timestamp
+                timestamp:messageDetails.timestamp,
+                received:messageDetails.received
               });
         }else{
             console.log("Error triggering pusher")
