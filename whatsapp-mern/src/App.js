@@ -23,7 +23,11 @@ function App() {
     channel.bind("inserted", function(data) {
       setMessages([...messages,data]);
     });
-  }, [messages])
+    return ()=>{
+      channel.unbind_all();
+      channel.unsubscribe();
+    }
+    }, [messages])
 
   console.log(messages);
 
