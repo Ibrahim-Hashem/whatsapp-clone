@@ -41,7 +41,8 @@ db.once('open',()=>{
     console.log('db connected');
     const msgCollection = db.collection("messagecontents");
     const changeStream = msgCollection.watch();
-    changeStream.on('change', change=>{
+    
+    changeStream.on('change', change => {
         if(change.operationType === 'insert'){
             const messageDetails = change.fullDocument;
             pusher.trigger("messages", "inserted", {
@@ -55,6 +56,7 @@ db.once('open',()=>{
         }
     });
 })
+
 //api route
 
 app.get('/',(req,res)=> res.status(200).send('hello world')) //send get request to app at the root url and it will return hello world if the status of the response is ok (200).
